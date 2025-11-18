@@ -14,8 +14,6 @@ alias cleanshot='rm -rf ~/screenshot/output/* && rm -rf ~/screenshot/region/* &&
 alias nvidia='sudo mkinitcpio -P'
 alias resetwaybar='killall waybar && hyprctl dispatch exec waybar'
 alias resetwallpaper='killall hyprpaper && hyprctl dispatch exec hyprpaper'
-alias disco='pkexec env WAYLAND_DISPLAY=$WAYLAND_DISPLAY XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR gparted'
-alias cleandownload='rm -rf ~/ssd/download/* && rm -rf ~/Downloads/*'
 alias z="cd"
 
 
