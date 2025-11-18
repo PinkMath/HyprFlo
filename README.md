@@ -70,7 +70,7 @@ sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
 ```
 <div align="center">
   
-# turn a file as yours
+# turn files as yours
 </div>
 
 ```bash
