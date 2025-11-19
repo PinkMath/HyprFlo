@@ -108,7 +108,7 @@ while true; do
 					git clone https://aur.archlinux.org/yay.git /home/$username/
 					cd /home/$username/yay
 					makepkg -si
-					yay -S swww
+					yay -S swww wlogout
 					sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
 					sudo cp -r ./home/pictures/ /home/$username/
 					break 
