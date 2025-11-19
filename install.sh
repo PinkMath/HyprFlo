@@ -27,6 +27,44 @@ if [ ! -d "/home/$username/" ]; then
         exit 1
 fi
 
+while turn; do
+	read -p "Wanna skip everythin?. IF YOU DO YOU'LL ANSWER YES TO EVERYTHIN (y/n)" answer
+
+	case "$answer" in
+		[Yy]* )
+			sudo pacman -Sy
+			sudo pacman -Syu
+			sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack ranger rofi slurp starship sxiv unzip waybar
+			systemctl --user start pipewire
+			systemctl --user enable pipewire
+			sudo rm -rf ~/.config
+			sudo cp ./config /home/$username/
+			sudo mv /home/$username/config /home/$username/.config
+			sudo chown $username /home/$username/.config/*
+			sudo rm -rf /home/$username/.bashrc
+			sudo rm -rf /home/$username/.bash_profile
+			sudo cp ./home/bashrc /home/$username/
+			sudo cp ./home/bashrc /home/$username/
+			sudo mv ./home/bash_profile /home/$username/.bashrc
+			sudo mv ./home/bash_profile /home/$username/.bash_profile
+			sudo chown $username /home/$username/.bashrc
+			sudo chown $username /home/$username/.bash_profile
+			git clone https://aur.archlinux.org/yay.git
+			cd yay
+			makepkg -si
+			yay -S swww wlogout
+			sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
+			sudo cp -r ./home/pictures/ /home/$username/
+			sure reboot
+			;;
+		[Nn]* )
+			break
+			;;
+		* )
+			;;
+	esac
+done
+
 
 while true; do
 	read -p "Wanna install the packages (y/n)? " answer
@@ -101,26 +139,14 @@ while true; do
 
 	case "$answer" in
 		[Yy]* )
-			read -p "Wanna use *swww* or *hyprpaper* (1/2)" wall
-
-			case "$wall" in
-				[1]* )
-					git clone https://aur.archlinux.org/yay.git /home/$username/
-					cd /home/$username/yay
-					makepkg -si
-					yay -S swww wlogout
-					sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
-					sudo cp -r ./home/pictures/ /home/$username/
-					break 
-					;;
-				[2]* )
-					sudo pacman -S hyprpaper
-					sudo cp -r ./home/pictures/ /home/$username/
-					break
-					;;
-				* )
-					;;
-			esac
+			git clone https://aur.archlinux.org/yay.git
+			cd yay
+			makepkg -si
+			yay -S swww wlogout
+			sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
+			sudo cp -r ./home/pictures/ /home/$username/
+			break 
+			;;
 		[Nn]* )
 			break
 			;;

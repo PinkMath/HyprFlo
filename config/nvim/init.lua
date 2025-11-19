@@ -26,18 +26,7 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-
-	-- harpoon
-	{
-	'nvim-lua/plenary.nvim',
-	lazy = false
-	},
-	{
-	'ThePrimeagen/harpoon',
-	lazy = false
-	},
-
-
+	require 'plugins.harpoon',
 	require 'plugins.tokyonight',
 	require 'plugins.telescope',
 	require 'plugins.gitsigns',
