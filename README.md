@@ -47,7 +47,7 @@ makepkg -si
 **yay**
 
 ```bash
-yay -S spotify
+yay -S spotify wlogout
 ```
 
 <div align="center">
