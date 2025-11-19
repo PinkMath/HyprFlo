@@ -13,6 +13,8 @@ alias update='sudo pacman -Syu && sudo pacman -Sy && yay && flatpak update'
 alias cleanshot='rm -rf ~/screenshot/output/* && rm -rf ~/screenshot/region/* && rm -rf ~/screenshot/window/*'
 alias nvidia='sudo mkinitcpio -P'
 alias resetwaybar='killall waybar && hyprctl dispatch exec waybar'
+alias install='sudo pacman -S'
+alias remove='sudo pacman -Rs'
 alias resetwallpaper='killall hyprpaper && hyprctl dispatch exec hyprpaper'
 alias z="cd"
 
