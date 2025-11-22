@@ -458,12 +458,6 @@
 #    script = dunst_test.sh
 
 [ignore]
-    # This notification will not be displayed
-    appname = "Spotify"
-    skip_display = true
-    history-ignore = yes
-
-[ignore]
     # This notification will not be saved in history
     appname = "Hyprshot"
     history_ignore = yes
