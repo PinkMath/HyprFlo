@@ -4,57 +4,66 @@ echo "WARNING. THIS PROCESS WILL DELETE YOUR *.config*. PLEASE MAKE A BACKUP BEF
 
 username=$(whoami)
 while true; do
-        echo "username: $username?"
-        read -p "(y / n) : " answer
-        
-        case "$answer" in
-                [Yy]* )
-                        break
-                        ;;
-                [Nn]* )
-                        read -p "username: " username
-                        ;;
-        
-                * )
-                        ;;
-        esac
-        echo ""
+	echo "username: $username?"
+	read -p "(y / n) : " answer
+
+	case "$answer" in
+		[Yy]* )
+			break
+			;;
+		[Nn]* )
+			read -p "username: " username
+			;;
+
+		* )
+			;;
+	esac
+	echo ""
 done
 
 
 if [ ! -d "/home/$username/" ]; then
-        echo "/home/$username/ not exists"
-        exit 1
+	echo "/home/$username/ not exists"
+	exit 1
 fi
 
-while turn; do
-	read -p "Wanna skip everythin?. IF YOU DO YOU'LL ANSWER YES TO EVERYTHIN (y/n)" answer
+while true; do
+	read -p "Wanna skip everythin?. IF YOU DO, YOU'LL ANSWER YES TO EVERYTHING (y/n)" answer
 
 	case "$answer" in
 		[Yy]* )
 			sudo pacman -Sy
 			sudo pacman -Syu
-			sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack ranger rofi slurp starship sxiv unzip waybar
+			sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack rofi slurp starship sxiv unzip waybar
 			systemctl --user start pipewire
 			systemctl --user enable pipewire
+
 			sudo rm -rf ~/.config
 			sudo cp ./config /home/$username/
 			sudo mv /home/$username/config /home/$username/.config
 			sudo chown $username /home/$username/.config/*
+
 			sudo rm -rf /home/$username/.bashrc
 			sudo rm -rf /home/$username/.bash_profile
+
 			sudo cp ./home/bashrc /home/$username/
-			sudo cp ./home/bashrc /home/$username/
-			sudo mv ./home/bash_profile /home/$username/.bashrc
+			sudo cp ./home/bash_profile /home/$username/
+
+			sudo mv ./home/bashrc /home/$username/.bashrc
 			sudo mv ./home/bash_profile /home/$username/.bash_profile
+
 			sudo chown $username /home/$username/.bashrc
 			sudo chown $username /home/$username/.bash_profile
+
 			git clone https://aur.archlinux.org/yay.git
 			cd yay
 			makepkg -si
-			yay -S swww wlogout
+			yay -S spotify swww wlogout
+
 			sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
+
 			sudo cp -r ./home/pictures/ /home/$username/
+
 			sure reboot
 			;;
 		[Nn]* )
@@ -73,7 +82,7 @@ while true; do
 		[Yy]* )
 			sudo pacman -Sy
 			sudo pacman -Syu
-			sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack ranger rofi slurp starship sxiv unzip waybar
+			sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack rofi slurp starship sxiv unzip waybar
 			systemctl --user start pipewire
 			systemctl --user enable pipewire
 			break
@@ -117,8 +126,8 @@ while true; do
 			sudo rm -rf /home/$username/.bashrc
 			sudo rm -rf /home/$username/.bash_profile
 			sudo cp ./home/bashrc /home/$username/
-			sudo cp ./home/bashrc /home/$username/
-			sudo mv ./home/bash_profile /home/$username/.bashrc
+			sudo cp ./home/bash_profile /home/$username/
+			sudo mv ./home/bashrc /home/$username/.bashrc
 			sudo mv ./home/bash_profile /home/$username/.bash_profile
 			sudo chown $username /home/$username/.bashrc
 			sudo chown $username /home/$username/.bash_profile
@@ -142,7 +151,7 @@ while true; do
 			git clone https://aur.archlinux.org/yay.git
 			cd yay
 			makepkg -si
-			yay -S swww wlogout
+			yay -S spotify swww wlogout
 			sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
 			sudo cp -r ./home/pictures/ /home/$username/
 			break 
