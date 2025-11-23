@@ -11,7 +11,7 @@
 **sudo**
 
 ```bash
-sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty linux-zen linux-zen-headers nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack ranger rofi slurp starship sxiv unzip waybar
+sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty linux-zen linux-zen-headers nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack rofi slurp starship sxiv unzip waybar
 ```
 <div align="center">
   
@@ -47,7 +47,7 @@ makepkg -si
 **yay**
 
 ```bash
-yay -S spotify wlogout
+yay -S spotify wlogout swww
 ```
 
 <div align="center">
