@@ -81,7 +81,5 @@ $printregion = hyprshot -m region -o ~/screenshot/region/
 
 
 waybar
-swww-daemon
+swww-daemon ;;if u chose to use wallpaper
 dunst
-xwaylandvideobridge
-firefox

@@ -58,7 +58,14 @@ while true; do
 			git clone https://aur.archlinux.org/yay.git
 			cd yay
 			makepkg -si
-			yay -S spotify swww wlogout
+			yay -S spotify spicetify-cli swww wlogout
+
+			sudo chmod a+wr /opt/spotify
+			sudo chmod a+wr /opt/spotify/Apps -R
+			sudo chmod a+wr /usr/share/spotify
+			sudo chmod a+wr /usr/share/spotify/Apps -R
+
+			sudo mv ~/.config/text ~/.config/spicetify/Themes/
 
 			sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
 
@@ -142,16 +149,51 @@ while true; do
 	echo ""
 done
 
+while true; do
+	read -p "Wanna spicetify with spotify (y/n)? " answer
+
+	case "$answer" in
+		[Yy]* )
+
+			if [ ! -d "./yay/" ]; then
+				git clone https://aur.archlinux.org/yay.git
+				cd yay
+				makepkg -si
+			fi
+
+			yay -S spotify spicetify-cli wlogout
+
+			sudo chmod a+wr /opt/spotify
+			sudo chmod a+wr /opt/spotify/Apps -R
+			sudo chmod a+wr /usr/share/spotify
+			sudo chmod a+wr /usr/share/spotify/Apps -R
+
+			sudo mv ~/.config/text ~/.config/spicetify/Themes/
+			break
+			;;
+		[Nn]* )
+			break
+			;;
+		* )
+			;;
+	esac
+	echo ""
+done
+
 
 while true; do
 	read -p "Wanna wallpaper (y/n)? " answer
 
 	case "$answer" in
 		[Yy]* )
-			git clone https://aur.archlinux.org/yay.git
-			cd yay
-			makepkg -si
+			if [ ! -d "./yay/" ]; then
+				git clone https://aur.archlinux.org/yay.git
+				cd yay
+				makepkg -si
+			fi
+
 			yay -S spotify swww wlogout
+
 			sudo chmod +x /home/$username/.config/hypr/scripts/rofi-wallpaper.sh
 			sudo cp -r ./home/pictures/ /home/$username/
 			break 
