@@ -11,7 +11,11 @@
 **sudo**
 
 ```bash
+<<<<<<< HEAD
 sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack rofi slurp starship sxiv unzip waybar
+=======
+sudo pacman -S xdg-desktop-portal xdg-desktop-portal-hyprland wireplumber base base-devel blueman bluez bluez-utils dunst fastfetch firefox flatpak git grim htop hyprland hyprshot kitty linux-zen linux-zen-headers nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse pipewire-jack rofi slurp starship sxiv unzip waybar
+>>>>>>> refs/remotes/origin/main
 ```
 <div align="center">
   
@@ -47,6 +51,7 @@ makepkg -si
 **yay**
 
 ```bash
+<<<<<<< HEAD
 yay -S spotify swww spicetify-cli wlogout
 ```
 
@@ -60,6 +65,9 @@ sudo chmod a+wr /opt/spotify/Apps -R
 if doesnt work, try:
 sudo chmod a+wr /usr/share/spotify
 sudo chmod a+wr /usr/share/spotify/Apps -R
+=======
+yay -S spotify wlogout swww
+>>>>>>> refs/remotes/origin/main
 ```
 
 <div align="center">
