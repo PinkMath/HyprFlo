@@ -1,7 +1,7 @@
 [![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=22&pause=1000&color=F7077E&vCenter=true&width=435&height=30&lines=INSTALLATION)](https://git.io/typing-svg)
 
   >[!IMPORTANT]
-  >The auto install still in development, *not recomended*
+  >The auto install still in development, *not recomended*, also it WILL delete urs settings.
 
   >[!NOTE]  
   >Dont forget to enable **[multilib]** at `/etc/pacman.conf`.
