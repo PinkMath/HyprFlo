@@ -1,7 +1,10 @@
-<div align="center">
-  
+[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=22&pause=1000&color=F7077E&vCenter=true&width=435&height=30&lines=INSTALLATION)](https://git.io/typing-svg)
 
-</div>
+  >[!IMPORTANT]
+  >The auto instaler still in development, *not recomended*
+
+  >[!NOTE]  
+  >Dont forget to enable **[multilib]** at `/etc/pacman.conf`.
 
 <div align="center">
   
