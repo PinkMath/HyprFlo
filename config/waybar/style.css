@@ -1,7 +1,7 @@
 
 * {
     border: none;
-    border-radius: 10px;
+    border-radius: 0px;
     font-family: "0xProto Nerd Font";
     font-weight: bold;
     font-size: 12px;
@@ -9,7 +9,7 @@
 }
 
 window#waybar {
-    background: rgba(21, 18, 27, 0.8);
+    background: rgb(21, 18, 27);
 }
 
 
