@@ -1,0 +1,176 @@
+ 
+ {
+  "position": "top",
+  "exlusive": "true",
+  "passthrough": "true",
+  "gtk-layer-shell": "true",
+  "margin-bottom": 0,
+  "margin-left": 0,
+  "margin-right": 0,
+  "height": 30,
+  "modules-left": [
+    "custom/wlog",
+    "clock",
+    "tray",
+  ],
+
+  "modules-center": [
+    "hyprland/workspaces",
+  ],
+
+  "modules-right": [
+    "hyprland/language",
+    "separator", 
+    "network",
+    "separator",
+    "bluetooth",
+    "pulseaudio",
+    "separator",
+    "battery",
+  ],
+
+
+  "battery": {
+        "states": {
+            "high": 90,
+            "upper-medium": 70,
+            "medium": 50,
+            "lower-medium": 30,
+            "low": 10,
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󱐋{icon} {capacity}%",
+        "format-plugged": "󰚥{icon} {capacity}%",
+        "format-time": "{H} h {M} min",
+        "format-icons": [ "󱃍", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ],
+        "tooltip-format": "{timeTo}",
+    },
+
+
+  "custom/wlog":{
+    "format": "<span color='#89b4fa'>󰣇 </span>", 
+    "on-click": "wlogout"
+  },
+
+
+  "tray": {
+    "icon-size": 16,
+    "icon-theme": "Papirus",
+    "spacing": 7, 
+  },
+
+
+   "custom/spacer": {
+        "format": "  ", // Empty space
+        "tooltip": false
+  },
+
+
+  "separator": {
+    "format": "|"
+  },
+
+
+
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "active": "@",
+      "urgent": "!",
+      "persistent": "#",
+      "focused": "0",
+      "default": "-",
+
+        },
+    "sort-by-number": true,
+    "persistent-workspaces": {
+      "*": 9,
+      "DP-1": 9
+    }
+  },
+  
+  "clock": {
+    "interval": 60,
+    "format": "  {:%I:%M %p}",
+    "format-alt": "  {:%I:%M %p    %Y, %d %B, %A}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "days": "<span color='#ebdbb2'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ebdbb2'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      },
+    },
+        "actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+
+   "bluetooth": {
+        "format": "󰂯 ON-<span color='#f38ba8'>DISCONNECTED</span>",
+        "format-disabled": "󰂲 <span color='#f38ba8'>OFF</span>",
+        "format-connected": "󰂱 ON-CONNECTED",
+        "on-click": "blueman-manager",
+    }, 
+
+   
+
+
+  "pulseaudio": {
+    "format": "<span color='#a6e3a1'>{icon}</span><span color='#cdd6f4'>{volume}%</span>",
+    "tooltip": false,
+    "format-muted": "<span color='#f38ba8'>󰝟 </span>",
+    "on-click": "pavucontrol",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_SINK@ 10%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_SINK@ 10%-",
+    "format-icons": {
+      "default": [
+        " ",
+        " ",
+        "  ",
+      ]
+    }
+  },
+
+
+
+
+   "hyprland/language": {
+
+  "format": "<span color='#f9e2af'>󰌌 </span> <span color='#cdd6f4'>{}</span>",
+
+
+},
+
+
+   "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "󰈁 Ethernet",
+        "format-linked": "  Linked (No IP)",
+        "format-disconnected": "  Disconnected",
+        "tooltip": false,
+    },
+
+
+}
