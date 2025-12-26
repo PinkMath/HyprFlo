@@ -1,5 +1,5 @@
 >[!IMPORTANT]
->Dont forget to enable **[multilib]** at `/etc/pacman.conf`.
+>Don't forget to enable **[multilib]** at `/etc/pacman.conf`.
 
 >[!NOTE]
 >This config's meant to be used with the Nerd Font **0xProto** and Vesktop insted of Discord.
@@ -122,3 +122,11 @@ sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
 | ------------- | ------------- |
 | Super + Mouse_left_click | Move window |
 | Super + Mouse_right_click | Resize window |
+
+##
+
+-- Language
+
+| commands | Exec |
+| ------------- | ------------- |
+| ALT + Shift | Switch language |
