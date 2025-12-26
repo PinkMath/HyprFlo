@@ -3,8 +3,6 @@
 
 >[!NOTE]
 >This config's meant to be used with the Nerd Font **0xProto** and Vesktop insted of Discord.
-
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=22&pause=1000&color=F7077E&vCenter=true&width=435&height=30&lines=INSTALLATION)](https://git.io/typing-svg)
   
 # REQUISITES
 
@@ -113,7 +111,7 @@ sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
 
 | commands | Exec |
 | ------------- | ------------- |
-| Super + [1-0] | Move workspace - [1-10] |
+| Super + [1-0] | Go to workspace - [1-10] |
 | Super + Shift + [1-0] | Move to workspace - [1-10] |
 
 ##
