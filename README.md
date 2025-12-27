@@ -1,3 +1,11 @@
+<div align="center">
+  <img width="580" alt="2025-12-26-200303_hyprshot" src="https://github.com/user-attachments/assets/744da9c6-0107-4825-bc27-6ab897ba201b" />
+  <img width="580" alt="2025-12-26-200249_hyprshot" src="https://github.com/user-attachments/assets/07321ede-2413-4a34-8b1e-aa485fb20035" />
+  <img width="580" alt="2025-12-26-200200_hyprshot" src="https://github.com/user-attachments/assets/4bdd6ff5-1cba-4e1c-8cfc-af0bc61aa7ee" />
+</div>
+
+##
+
 >[!IMPORTANT]
 >Don't forget to enable **[multilib]** at `/etc/pacman.conf`.
 
