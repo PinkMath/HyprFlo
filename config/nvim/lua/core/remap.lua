@@ -77,6 +77,3 @@ end)
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
-
-vim.keymap.set("n", "<C-s>", vim.cmd.w)
-vim.keymap.set("n", "<C-q>", vim.cmd.q)
