@@ -19,6 +19,6 @@ alias resetwallpaper='killall hyprpaper && hyprctl dispatch exec hyprpaper'
 -- bash_profile:
 `
 if [ "$(tty)" = "/dev/tty1" ]; then
-  exec Hyprland
+  exec start-hyprland
 fi
 `
