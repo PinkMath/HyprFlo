@@ -1,4 +1,7 @@
 <div align="center">
+<img width="580" alt="2025-12-29-215213_hyprshot" src="https://github.com/user-attachments/assets/5bf6322e-c37a-49b6-8fc0-0046de81a1ae" />
+<img width="580" alt="2025-12-29-215035_hyprshot" src="https://github.com/user-attachments/assets/45af2960-6295-4815-ab79-a2d180661b63" />
+<img width="580" alt="2025-12-29-214959_hyprshot" src="https://github.com/user-attachments/assets/24c4a006-9fe9-4d1e-9b67-b5843d15e931" />
 
 </div>
 
