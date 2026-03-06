@@ -1,5 +1,5 @@
 >[!NOTE]
->Save your wallpapers in the `pictures` file
+>Save your wallpapers in the `pictures` folder
 
 -- If you wanna, here's few shortcuts to add in `.bashrc` and `.bash_profile`:
 
