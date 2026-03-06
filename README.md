@@ -16,7 +16,7 @@
 # REQUISITES
 
 ```bash
-sudo pacman -S wireplumber base-devel blueman bluez bluez-utils dunst fastfetch firefox grim hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse rofi slurp sxiv unzip waybar
+sudo pacman -S wireplumber base-devel blueman bluez bluez-utils dunst fastfetch grim hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse rofi slurp sxiv unzip waybar tmux
 ```
   
 # START PIPEWIRE/BLUETOOTH
@@ -51,7 +51,7 @@ makepkg -si
 ```
 
 ```bash
-yay -S spotify swww wlogout
+yay -S spotify swww wlogout zen-browser
 ```
 
 # SCRIPT
