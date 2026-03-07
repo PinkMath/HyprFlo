@@ -62,12 +62,6 @@ sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
 
 # COMMANDS
 
--- Help
-
-| commands | Exec |
-| ------------- | ------------- |
-| Ctrl + Shift + H | HELPER.txt |
-
 -- Launche
 
 | commands | Exec |
