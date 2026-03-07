@@ -16,7 +16,7 @@
 # REQUISITES
 
 ```bash
-sudo pacman -S wireplumber base-devel blueman bluez bluez-utils dunst fastfetch grim hyprland hyprshot foot nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse rofi slurp sxiv unzip waybar tmux
+sudo pacman -S wireplumber base-devel blueman bluez bluez-utils dunst fastfetch grim hyprland hyprshot kitty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse rofi slurp sxiv unzip waybar tmux
 ```
   
 # START PIPEWIRE/BLUETOOTH
