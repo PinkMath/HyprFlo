@@ -1,0 +1,81 @@
+* {
+        font: "0xProto Nerd Font 11";
+        blur: true;
+        padding: 10px;
+        background-color: transparent;
+        border-radius: 0px;
+}
+
+window {
+        width: 500px;
+        height: 500px;
+        location: center;
+        blur: true;
+        border: 2px;
+        border-radius: 3px;
+        border-color: #61afef;
+        background-color: transparent;
+        padding: 0px;
+}
+
+mainbox {
+        orientation: horizontal;
+        children: [ "borderbox" ];
+        spacing: 0px;
+        padding: 0px;
+}
+
+borderbox {
+        orientation: horizontal;
+        children: ["contentbox"];
+        padding: 0px;
+        spacing: 0px;
+        border-radius: 3px;
+}
+
+contentbox {
+        orientation: vertical;
+        children: ["listview","entry"];
+        spacing: 0px;
+        padding: 0px;
+        expand: true;
+}
+
+element {
+        border-radius: 0px;
+}
+
+element-text, element-icon {
+        padding: 6px 8px;
+        spacing: 2px;
+        text-color: #fab387;
+}
+
+element selected {
+        background-color: #191919;
+        text-color: #e5c07b;
+        border-radius: 3px;
+}
+
+prompt {
+        enabled: false;
+        background-color: transparent;
+        text-color: #61afef;
+        padding: 5px 10px;
+}
+
+entry {
+        padding: 8px;
+        expand: false;
+        font: "0xProto Nerd Font 12";
+        text-color: #fab387;
+        border-radius: 0px 3px 0px 0px;
+        background-color: #292e36;
+}
+
+listview {
+        lines: 1;
+        background-color: rgba(46, 52, 64, 0.8);
+        border-radius: 0px 0px 3px 0px;
+        padding: 10px;
+}
