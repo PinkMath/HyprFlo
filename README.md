@@ -51,7 +51,7 @@ makepkg -si
 ```
 
 ```bash
-yay -S spotify swww wlogout zen-browser
+yay -S spotify swww wlogout zen-browser vesktop
 ```
 
 # SCRIPT
@@ -64,77 +64,83 @@ sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
 
 -- Launche
 
-| commands | Exec |
-| ------------- | ------------- |
-| ALT + S | Spotify |
-| ALT + B | Firefox |
-| Super + Space | Apps |
-| Super + Shift + Space | Change wallpapers |
-| Super + E | Terminal |
-| Super + Shift + E | Filemanager |
+| Key                   | Action                 |
+| --------------------- | ---------------------- |
+| `Alt + S`             | Launch Spotify         |
+| `Alt + B`             | Launch default browser |
+| `Alt + D`             | Launch Vesktop         |
+| `Super + Space`       | Launch menu            |
+| `Super + Alt + Space` | Change wallpaper       |
+| `Super + E`           | Open terminal          |
+| `Super + Shift + E`   | Open file manager      |
 
-##
+-- Spotify / Media Control
 
--- Spotify
+| Key                | Action          |
+| ------------------ | --------------- |
+| `Alt + Left`       | Previous track  |
+| `Alt + Right`      | Next track      |
+| `Alt + Up`         | Increase volume |
+| `Alt + Down`       | Decrease volume |
+| `Alt + Pause/Play` | Play/Pause      |
 
-| commands | Exec |
-| ------------- | ------------- |
-| ALT + left_arrow | Play/Pause |
-| ALT + right_arrow | Next soung |
-| ALT + up_arrow | Turn up the volume |
-| ALT + down_arrow | Turn down the volume |
+-- Special Workspace
 
-##
+- Magic workspace toggle: `Super + T`
 
--- Print
+- Move focused window to magic workspace: `Super + Shift + G`
 
-| commands | Exec |
-| ------------- | ------------- |
-| Super + X | Print - region |
-| Super + Z | Print - screen |
-| Super + C | Print - window |
+- Move focused window to workspace 2: `Super + G`
 
-##
+> The magic workspace is ideal for temporary or floating windows like Spotify, Vesktop, or scratchpad apps.
 
--- Geral
+-- Print / Screenshots
 
-| commands | Exec |
-| ------------- | ------------- |
-| Super + Q | Kill active |
-| Super + I | Fullscreen |
-| Super + F | Toggle floating |
-| Super + O | Toggle split |
-| Super + H | Focus window - left |
-| Super + J | Focus window - down |
-| Super + K | Focus window - up |
-| Super + L | Focus window - right |
-| Super + Shift + H | Move window - left |
-| Super + Shift + J | Move window - down |
-| Super + Shift + K | Move window - up |
-| Super + Shift + L | Move window - right |
+| Key         | Action                |
+| ----------- | --------------------- |
+| `Super + X` | Print selected region |
+| `Super + Z` | Print full screen     |
+| `Super + C` | Print focused window  |
 
-##
+-- Window Management
 
--- Workspaces
+| Key                       | Action                          |
+| ------------------------- | ------------------------------- |
+| `Super + Q`               | Close active window             |
+| `Super + F`               | Toggle floating                 |
+| `Super + I`               | Toggle fullscreen               |
+| `Super + H/L/K/J`         | Move focus left/right/up/down   |
+| `Super + Shift + H/L/K/J` | Swap windows left/right/up/down |
 
-| commands | Exec |
-| ------------- | ------------- |
-| Super + [1-0] | Go to workspace - [1-10] |
-| Super + Shift + [1-0] | Move to workspace - [1-10] |
+-- Workspace Navigation
 
-##
+| Key                 | Action                                |
+| ------------------- | ------------------------------------- |
+| `Super + 1-0`       | Switch to workspace 1–10              |
+| `Super + Alt + 1-0` | Move focused window to workspace 1–10 |
 
--- Mouse
+-- Mouse Window Controls
 
-| commands | Exec |
-| ------------- | ------------- |
-| Super + Mouse_left_click | Move window |
-| Super + Mouse_right_click | Resize window |
+| Key                   | Action        |
+| --------------------- | ------------- |
+| `Super + Mouse Left`  | Move window   |
+| `Super + Mouse Right` | Resize window |
 
-##
+-- Laptop Multimedia Keys
 
--- Language
+| Key                     | Action                    |
+| ----------------------- | ------------------------- |
+| `XF86AudioRaiseVolume`  | Increase volume by 5%     |
+| `XF86AudioLowerVolume`  | Decrease volume by 5%     |
+| `XF86AudioMute`         | Toggle mute               |
+| `XF86AudioMicMute`      | Toggle mic mute           |
+| `XF86MonBrightnessUp`   | Increase brightness by 5% |
+| `XF86MonBrightnessDown` | Decrease brightness by 5% |
 
-| commands | Exec |
-| ------------- | ------------- |
-| ALT + Shift | Switch language |
+-- Additional Player Controls (Requires `playerctl`)
+
+| Key                              | Action         |
+| -------------------------------- | -------------- |
+| `XF86AudioNext`                  | Next track     |
+| `XF86AudioPrev`                  | Previous track |
+| `XF86AudioPlay / XF86AudioPause` | Play / Pause   |
