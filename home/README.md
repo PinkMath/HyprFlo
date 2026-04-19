@@ -1,6 +1,8 @@
 >[!NOTE]
 >Save your wallpapers in the `pictures` folder
 
+-- If you're uring zsh, move the zprofile and zshrc to the home and rename it as '.zprofile' and '.zshrc'.
+
 -- If you wanna, here's few shortcuts to add in `.bashrc` and `.bash_profile`:
 
 ## bashrc:

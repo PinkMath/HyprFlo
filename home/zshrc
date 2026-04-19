@@ -1,0 +1,66 @@
+[ -f "$XDG_CONFIG_HOME/shell/alias" ] && source "$XDG_CONFIG_HOME/shell/alias"
+[ -f "$XDG_CONFIG_HOME/shell/vars" ] && source "$XDG_CONFIG_HOME/shell/vars"
+
+autoload -Uz vcs_info
+autoload -U colors && colors
+zmodload zsh/complist
+autoload -U compinit && compinit
+autoload -U colors && colors
+
+zstyle ':vcs_info:*' enable git 
+zstyle ":vcs_info:*" check-for-changes true
+zstyle ":vcs_info:*" stagedstr "%F{#FB4}"
+zstyle ":vcs_info:*" unstagedstr "%F{#E77}"
+zstyle ":vcs_info:*" formats "%c%u(%b)"
+
+zstyle ':completion:*' menu select # tab opens cmp menu
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} ma=0\;33 # colorize cmp menu
+# zstyle ':completion:*' file-list true # more detailed list
+zstyle ':completion:*' squeeze-slashes false # explicit disable to allow /*/ expansion
+
+setopt append_history inc_append_history share_history # better history
+setopt auto_menu menu_complete # autocmp first menu match
+setopt autocd # type a dir to cd
+setopt auto_param_slash # when a dir is completed, add a / instead of a trailing space
+setopt no_case_glob no_case_match # make cmp case insensitive
+setopt globdots # include dotfiles
+setopt extended_glob # match ~ # ^
+setopt interactive_comments # allow comments in shell
+unsetopt prompt_sp # don't autoclean blanklines
+stty stop undef # disable accidental ctrl s
+
+HISTSIZE=1000000
+SAVEHIST=1000000
+HISTFILE="$XDG_CACHE_HOME/zsh_history" # move histfile to cache
+HISTCONTROL=ignoreboth # consecutive duplicates & commands starting with space are not saved
+
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+
+
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+# 
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep '??' &> /dev/null ; then
+        hook_com[staged]+='!' # signify new files with a bang
+    fi
+}
+
+zstyle ':vcs_info:git:*' formats " %{$fg[blue]%}(%{$fg[red]%}%m%u%c%{$fg[yellow]%}%{$fg[magenta]%} %b%{$fg[blue]%})%{$reset_color%}"
+
+PROMPT="%B%{$fg[pink]%}λ%  %(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )%{$fg[cyan]%}%c%{$reset_color%}"
+PROMPT+="\$vcs_info_msg_0_ "
+
+alias update='sudo pacman -Syu && sudo pacman -Sy && yay'
+alias cleanshot='rm -rf ~/screenshot/output/* && rm -rf ~/screenshot/region/* && rm -rf ~/screenshot/window/*'
+alias nvidia='sudo mkinitcpio -P'
+alias resetwaybar='killall waybar && hyprctl dispatch exec waybar'
+alias resetwallpaper='killall hyprpaper && hyprctl dispatch exec hyprpaper'
+alias z='cd'
+alias so='source'
+alias ferretai='so ~/code/venv/bin/activate && python ~/code/Ferret-AI/terminalAI/main.py'
+alias venv='so ~/code/venv/bin/activate'
+alias anime='ani-cli'
+alias back='tmux attach || tmux new'

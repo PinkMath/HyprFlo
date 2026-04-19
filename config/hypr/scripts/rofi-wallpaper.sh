@@ -9,7 +9,7 @@ for f in "${files[@]}"; do
     names+=("$(basename "$f")")
 done
 
-selected_name=$(printf '%s\n' "${names[@]}" | rofi -dmenu -i -p "swww >")
+selected_name=$(printf '%s\n' "${names[@]}" | rofi -dmenu -i -p "awww >")
 
 if [ -n "$selected_name" ]; then
     for i in "${!names[@]}"; do
@@ -20,7 +20,7 @@ if [ -n "$selected_name" ]; then
     done
 
     if [ -n "$select_image" ]; then
-        swww img "$select_image" --transition-type any --transition-fps 50 --transition-duration 1
+        awww img "$select_image" --transition-type any --transition-fps 50 --transition-duration 1
     fi
 fi
 

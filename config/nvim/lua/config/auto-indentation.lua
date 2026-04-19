@@ -1,51 +1,61 @@
 local M = {}
 
--- default indentation
-local default = 4
-
--- language indentation map
-local indent = {
-  lua = 2,
-
-  javascript = 2,
-  typescript = 2,
-  javascriptreact = 2,
-  typescriptreact = 2,
-
-  html = 2,
-  css = 2,
-  scss = 2,
-
-  json = 2,
-  yaml = 2,
-  yml = 2,
-
-  sh = 2,
-  bash = 2,
-  zsh = 2,
-
-  python = 4,
-  c = 4,
-  cpp = 4,
-  java = 4,
-  go = 4,
-  rust = 4,
+-- default config
+local default = {
+  width = 4,
+  expandtab = true,
 }
 
-local function set_indent(width)
+-- language settings
+local languages = {
+  lua = { width = 2 },
+
+  javascript = { width = 2 },
+  typescript = { width = 2 },
+  javascriptreact = { width = 2 },
+  typescriptreact = { width = 2 },
+
+  html = { width = 2 },
+  css = { width = 2 },
+  scss = { width = 2 },
+
+  json = { width = 2 },
+  yaml = { width = 2 },
+  yml = { width = 2 },
+
+  sh = { width = 2 },
+  bash = { width = 2 },
+  zsh = { width = 2 },
+
+  python = { width = 4 },
+  c = { width = 4 },
+  cpp = { width = 4 },
+  java = { width = 4 },
+
+  go = {
+    width = 4,
+    expandtab = false,
+  },
+
+  rust = { width = 4 },
+}
+
+local function apply(opts)
+  local width = opts.width or default.width
+
   vim.opt_local.shiftwidth = width
   vim.opt_local.tabstop = width
   vim.opt_local.softtabstop = width
+  vim.opt_local.expandtab = opts.expandtab ~= false
 end
 
 function M.setup()
-  -- global defaults
+  -- global indentation behaviour
   vim.opt.expandtab = true
   vim.opt.smartindent = true
   vim.opt.autoindent = true
-
-  -- default width
-  set_indent(default)
+  vim.opt.smarttab = true
+  vim.opt.shiftround = true
 
   local group = vim.api.nvim_create_augroup("AutoIndent", { clear = true })
 
@@ -53,16 +63,8 @@ function M.setup()
     group = group,
     callback = function(event)
       local ft = event.match
-      local width = indent[ft] or default
-
-      set_indent(width)
-
-      -- language exceptions
-      if ft == "go" then
-        vim.opt_local.expandtab = false
-      else
-        vim.opt_local.expandtab = true
-      end
+      local cfg = languages[ft] or default
+      apply(cfg)
     end,
   })
 end

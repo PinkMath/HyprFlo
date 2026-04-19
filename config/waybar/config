@@ -3,7 +3,10 @@
 	"exlusive": "true",
 	"passthrough": "true",
 	"gtk-layer-shell": "true",
-	"margin": 5,
+	"margin-top": 5,
+	"margin-right": 5,
+	"margin-left": 5,
+	"margin-bottom": 0,
 	"height": 30,
 
 	"modules-left": [

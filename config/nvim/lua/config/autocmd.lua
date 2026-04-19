@@ -121,3 +121,37 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "CmdlineEn
       end
    end,
 })
+
+-- to the '.env' files
+vim.api.nvim_create_autocmd("BufRead", {
+  group = vim.api.nvim_create_augroup("dotenv_ft", { clear = true }),
+  pattern = { ".env", ".env.*" },
+  callback = function()
+    vim.bo.filetype = "dosini"
+  end,
+})
+
+-- ide like highlight when stopping cursor
+vim.api.nvim_create_autocmd("CursorMoved", {
+  group = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true }),
+  desc = "Highlight reference cursor",
+  callback = function()
+    -- only run if the cursor is not in insert mode
+    if vim.fn.mode() ~= "i" then
+      local clients = vim .lsp.get_clients({ bufnr = 0 })
+      local supports_highlight = false
+      for _, client in ipairs(clients) do
+        if client.server_capabilities.documentHighlightProvider then
+          supports_highlight = true -- found a supporting client, no need to check others
+          break
+        end
+      end
+
+      -- proceed only if an lsp's active and supports the feature
+      if supports_highlight then
+        vim.lsp.buf.clear_references()
+        vim.lsp.buf.document_highlight()
+      end
+    end
+    end,
+})

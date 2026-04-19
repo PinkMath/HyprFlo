@@ -10,14 +10,14 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- fzf and grep
-map("n", "<leader>f", "<cmd>lua require('fzf-lua').files()<CR>") --search cwd
-map("n", "<leader>Fh", "<cmd>lua require('fzf-lua').files({ cwd = '~/' })<CR>") --search home
-map("n", "<leader>Fc", "<cmd>lua require('fzf-lua').files({ cwd = '~/.config' })<CR>") --search .config
-map("n", "<leader>Fl", "<cmd>lua require('fzf-lua').files({ cwd = '~/.local/src' })<CR>") --search .local/src
-map("n", "<leader>Ff", "<cmd>lua require('fzf-lua').files({ cwd = '..' })<CR>") --search above
-map("n", "<leader>Fr", "<cmd>lua require('fzf-lua').resume()<CR>") --last search
-map("n", "<leader>g", "<cmd>lua require('fzf-lua').grep()<CR>") --grep
-map("n", "<leader>G", "<cmd>lua require('fzf-lua').grep_cword()<CR>") --grep word under cursor
+map("n", "<leader>f", ":lua require('fzf-lua').files()<CR>") --search cwd
+map("n", "<leader>Fh", ":lua require('fzf-lua').files({ cwd = '~/' })<CR>") --search home
+map("n", "<leader>Fc", ":lua require('fzf-lua').files({ cwd = '~/.config' })<CR>") --search .config
+map("n", "<leader>Fl", ":lua require('fzf-lua').files({ cwd = '~/.local/src' })<CR>") --search .local/src
+map("n", "<leader>Ff", ":lua require('fzf-lua').files({ cwd = '..' })<CR>") --search above
+map("n", "<leader>Fr", ":lua require('fzf-lua').resume()<CR>") --last search
+map("n", "<leader>g", ":lua require('fzf-lua').grep()<CR>") --grep
+map("n", "<leader>G", ":lua require('fzf-lua').grep_cword()<CR>") --grep word under cursor
 
 -- window
 map("n", "ss", "<C-w>s") --window - split horizontal
@@ -28,23 +28,23 @@ map("n", "sk", "<C-w>k") --window - go to up
 map("n", "sl", "<C-w>l") --window - go to right
 
 -- misc
-map("n", "<leader>s", ":%s//g<Left><Left>") --replace all - dont replace ':' to '<cmd>', dont ask why
+map("n", "<leader>s", ":%s//g<Left><Left>") --replace all - dont replace ':' to ':', dont ask why
 map("n", "<leader>ps", switch_theme) --cycle themes
-map("n", "<leader>P", "<cmd>PlugInstall<CR>") --vim-plug-install
-map("n", "<leader>U", "<cmd>PlugUpdate<CR>") --vim-plug-update
-map("n", "<leader>z", "<cmd>lua require('FTerm').open()<CR>") --open term
-map("n", "<leader>w", "<cmd>w<CR>") --write but one less key
-map("n", "<leader>d", "<cmd>w ") --duplicate to new name
-map("n", "<leader>x", "<cmd>!chmod +x %<CR>") --make a file executable
+map("n", "<leader>P", ":PlugInstall<CR>") --vim-plug-install
+map("n", "<leader>U", ":PlugUpdate<CR>") --vim-plug-update
+map("n", "<leader>z", ":lua require('FTerm').open()<CR>") --open term
+map("n", "<leader>w", ":w<CR>") --write but one less key
+map("n", "<leader>d", ":w ") --duplicate to new name
+map("n", "<leader>x", ":!chmod +x %<CR>") --make a file executable
 map("n", "<leader>mv", ":!mv % ") --move a file to a new dir
-map("n", "<leader>R", "<cmd>so %<CR>") --reload neovim config
-map("n", "<leader>u", '<cmd>silent !xdg-open "<cWORD>" &<CR>') --open a url under cursor
-map("n", "<leader>W", "<cmd>set wrap!<CR>") --toggle wrap
-map("n", "<leader>l", "<cmd>Twilight<CR>") --surrounding dim - FIRE
-map("n", "<leader>pv", "<cmd>Ex<CR>") --Buffer
+map("n", "<leader>R", ":so %<CR>") --reload neovim config
+map("n", "<leader>u", ':silent !xdg-open "<cWORD>" &<CR>') --open a url under cursor
+map("n", "<leader>W", ":set wrap!<CR>") --toggle wrap
+map("n", "<leader>l", ":Twilight<CR>") --surrounding dim - FIRE
+map("n", "<leader>pv", ":Ex<CR>") --Buffer
 
 -- theprimeagen - cool
-map("n", "<Esc>", "<cmd>nohlsearch<CR>") --petty cool
+map("n", "<Esc>", ":nohlsearch<CR>") --petty cool
 map({"n", "v"}, "<C-d>", "<C-d>zz") --petty cool
 map({"n", "v"}, "<C-u>", "<C-u>zz") --petty cool
 
