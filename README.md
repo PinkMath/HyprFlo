@@ -2,7 +2,7 @@
 
 Minimal Arch Linux + Hyprland dotfiles.
 
-HyprFlo is my personal Hyprland setup focused on being clean, fast, and simple.
+HyprFlo is my personal Hyprland setup focused on being clean, fast, and simple.  
 It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlogout, and wallpapers.
 
 > [!IMPORTANT]
@@ -19,13 +19,9 @@ It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlog
 
 ## Preview
 
-
-<img width="1920" height="1080" alt="2026-05-15-161330_hyprshot" src="https://github.com/user-attachments/assets/139b737e-acc9-40af-8b1e-84867991c1eb" />
-
-
-<img width="1920" height="1080" alt="2026-05-15-153545_hyprshot" src="https://github.com/user-attachments/assets/514b7334-4fc6-4460-813f-8a70e02c72cb" />
-
-<img width="1920" height="1080" alt="2026-05-15-153524_hyprshot" src="https://github.com/user-attachments/assets/9ba30706-e663-4444-b6d6-e1469ab9187b" />
+![Screenshot 1](./screenshots/2026-05-15-161330_hyprshot.png)
+![Screenshot 2](./screenshots/2026-05-15-153545_hyprshot.png)
+![Screenshot 3](./screenshots/2026-05-15-153524_hyprshot.png)
 
 ---
 
@@ -123,13 +119,22 @@ Or log out and log back in.
 
 | Keybind | Action |
 |---|---|
-| `Alt + S` | Launch Spotify |
-| `Alt + B` | Launch browser |
-| `Alt + D` | Launch Vesktop |
-| `Super + Space` | Open Rofi menu |
+| `Super + Return` | Open terminal |
+| `Super + E` | Open file manager |
+| `Super + Space` | Open Rofi app launcher |
 | `Super + Shift + Space` | Change wallpaper |
-| `Super + E` | Open terminal |
-| `Super + Shift + E` | Open file manager |
+| `Alt + B` | Launch browser |
+| `Alt + S` | Launch Spotify |
+| `Alt + D` | Launch Vesktop |
+
+---
+
+### Power / Lock
+
+| Keybind | Action |
+|---|---|
+| `Super + P` | Open power menu |
+| `Super + O` | Lock screen |
 
 ---
 
@@ -137,11 +142,11 @@ Or log out and log back in.
 
 | Keybind | Action |
 |---|---|
-| `Alt + Left` | Previous track |
-| `Alt + Right` | Next track |
-| `Alt + Up` | Increase volume |
-| `Alt + Down` | Decrease volume |
-| `Alt + Pause/Play` | Play or pause |
+| `Alt + Left` | Previous Spotify track |
+| `Alt + Right` | Next Spotify track |
+| `Alt + Up` | Increase Spotify volume |
+| `Alt + Down` | Decrease Spotify volume |
+| `Alt + Space` | Play or pause Spotify |
 
 ---
 
@@ -167,6 +172,16 @@ The magic workspace is useful for temporary or floating apps like Spotify, Veskt
 
 ---
 
+### Notifications
+
+| Keybind | Action |
+|---|---|
+| `Super + N` | Show last notification from history |
+| `Super + Shift + N` | Close all notifications |
+| `Super + Ctrl + N` | Pause or unpause notifications |
+
+---
+
 ### Window Management
 
 | Keybind | Action |
@@ -189,8 +204,26 @@ The magic workspace is useful for temporary or floating apps like Spotify, Veskt
 
 | Keybind | Action |
 |---|---|
-| `Super + 1-0` | Switch to workspace 1-10 |
-| `Super + Alt + 1-0` | Move focused window to workspace 1-10 |
+| `Super + 1` | Switch to workspace 1 |
+| `Super + 2` | Switch to workspace 2 |
+| `Super + 3` | Switch to workspace 3 |
+| `Super + 4` | Switch to workspace 4 |
+| `Super + 5` | Switch to workspace 5 |
+| `Super + 6` | Switch to workspace 6 |
+| `Super + 7` | Switch to workspace 7 |
+| `Super + 8` | Switch to workspace 8 |
+| `Super + 9` | Switch to workspace 9 |
+| `Super + 0` | Switch to workspace 10 |
+| `Super + Shift + 1` | Move focused window to workspace 1 |
+| `Super + Shift + 2` | Move focused window to workspace 2 |
+| `Super + Shift + 3` | Move focused window to workspace 3 |
+| `Super + Shift + 4` | Move focused window to workspace 4 |
+| `Super + Shift + 5` | Move focused window to workspace 5 |
+| `Super + Shift + 6` | Move focused window to workspace 6 |
+| `Super + Shift + 7` | Move focused window to workspace 7 |
+| `Super + Shift + 8` | Move focused window to workspace 8 |
+| `Super + Shift + 9` | Move focused window to workspace 9 |
+| `Super + Shift + 0` | Move focused window to workspace 10 |
 
 ---
 
