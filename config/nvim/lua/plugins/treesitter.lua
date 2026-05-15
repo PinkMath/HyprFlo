@@ -1,20 +1,54 @@
-return {
-  "nvim-treesitter/nvim-treesitter",
-  lazy = false,
-  build = ":TSUpdate",
-  config = function ()
-    local treesitter = require("nvim-treesitter")
-    treesitter.setup()
+local ok, treesitter = pcall(require, "nvim-treesitter.configs")
+if not ok then
+  return
+end
 
-	treesitter.install = { "bash", "c", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "markdown", "markdown_inline", "python", "rust", "tsx", "typescript" },
+treesitter.setup({
+  ensure_installed = {
+    -- Core
+    "lua",
+    "vim",
+    "vimdoc",
 
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = { "bash", "c", "css", "cpp", "go", "html", "java", "javascript", "json", "lua", "markdown", "markdown_inline", "python", "rust", "tsx", "typescript" },
+    -- Web/fullstack
+    "javascript",
+    "typescript",
+    "tsx",
+    "html",
+    "css",
+    "scss",
+    "svelte",
+    "vue",
 
-      callback = function()
-        vim.treesitter.start()
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      end,
-    })
-  end
- }
+    -- Backend
+    "python",
+    "go",
+    "rust",
+    "php",
+
+    -- Data/config
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "dockerfile",
+    "bash",
+    "sql",
+
+    -- Docs
+    "markdown",
+    "markdown_inline",
+
+    -- Git
+    "gitignore",
+    "gitcommit",
+  },
+
+  highlight = {
+    enable = true,
+  },
+
+  indent = {
+    enable = false,
+  },
+})

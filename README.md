@@ -11,33 +11,21 @@
 
 >[!NOTE]
 >This config's meant to be used with the Nerd Font **0xProto**.
-  
+
 # REQUISITES
 
 ```bash
-sudo pacman -S wireplumber base-devel blueman bluez bluez-utils dunst fastfetch grim hyprland hyprshot ghostty nano nemo neovim pavucontrol pipewire pipewire-alsa pipewire-pulse rofi slurp sxiv unzip waybar tmux
-```
-  
-# START PIPEWIRE/BLUETOOTH
-
-```bash
-sudo systemctl start pipewire
-sudo systemctl enable pipewire
+sudo pacman -S wireplumber base-devel dunst grim hyprland hyprshot kitty nemo neovim pavucontrol rofi slurp unzip waybar tmux
 ```
 
-```bash
-sudo systemctl start bluetooth.service
-sudo systemctl enable bluetooth.service
-```
-  
-# NVIDIA(dkms)/vulkan - if you need
-
-```bash
-sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader
-```
+# NVIDIA(dkms)/vulkan - if u want
 
 ```bash
 sudo pacman -S nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils
+```
+
+```bash
+sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader
 ```
 
 # Download **YAY**
@@ -50,13 +38,13 @@ makepkg -si
 ```
 
 ```bash
-yay -S spotify swww wlogout zen-browser vesktop
+yay -S spotify awww wlogout librewolf-bin vesktop
 ```
 
 # SCRIPT
 
 ```bash
-sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
+sudo chmod +x ~/.config/hypr/script/rofi-wallpaper.sh
 ```
 
 # COMMANDS
@@ -69,7 +57,7 @@ sudo chmod +x ~/.config/hypr/scripts/rofi-wallpaper.sh
 | `Alt + B`             | Launch default browser |
 | `Alt + D`             | Launch Vesktop         |
 | `Super + Space`       | Launch menu            |
-| `Super + Alt + Space` | Change wallpaper       |
+| `Super + Shift + Space` | Change wallpaper       |
 | `Super + E`           | Open terminal          |
 | `Super + Shift + E`   | Open file manager      |
 

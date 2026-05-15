@@ -1,111 +1,163 @@
--- plugins/lsp.lua
-local mason = require("mason")
-local mason_lsp = require("mason-lspconfig")
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
-local cmp = require("cmp")
-local luasnip = require("luasnip")
+local mason_ok, mason = pcall(require, "mason")
+if not mason_ok then
+  return
+end
 
--- Setup Mason
+local cmp_ok, cmp = pcall(require, "cmp")
+if not cmp_ok then
+  return
+end
+
+local cmp_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not cmp_lsp_ok then
+  return
+end
+
 mason.setup()
-mason_lsp.setup({
-    ensure_installed = {
-        "lua_ls", "ts_ls", "cssls", "tailwindcss", "html", "pyright", "clangd",
-        "gopls", "rust_analyzer", "jsonls", "bashls", "dockerls", "yamlls",
-        "emmet_ls", "svelte", "vuels",
-    },
-})
 
--- LSP capabilities & on_attach
 local capabilities = cmp_nvim_lsp.default_capabilities()
-local on_attach = function(client, bufnr)
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-    vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, opts)
-end
 
--- Setup nvim-cmp
-cmp.setup({
-    snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
-    mapping = cmp.mapping.preset.insert({
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
-            else fallback() end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then luasnip.jump(-1)
-            else fallback() end
-        end, { "i", "s" }),
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        ["<C-e>"] = cmp.mapping.abort(),
-    }),
-    sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "buffer" },
-        { name = "path" },
-        { name = "luasnip" },
-    }),
-})
-
--- Modern vim.lsp.config setup
-local lsp = vim.lsp.config
-
--- Servers
 local servers = {
-    "lua_ls", "ts_ls", "cssls", "tailwindcss", "html", "pyright", "clangd",
-    "gopls", "rust_analyzer", "jsonls", "bashls", "dockerls", "yamlls",
-    "emmet_ls", "svelte", "vuels",
+  -- Lua / Neovim
+  "lua_ls",
+
+  -- Frontend / fullstack
+  "ts_ls",
+  "html",
+  "cssls",
+  "tailwindcss",
+  "emmet_language_server",
+  "jsonls",
+
+  -- Backend
+  "pyright",
+  "gopls",
+  "rust_analyzer",
+  "intelephense",
+
+  -- Config / shell / DevOps
+  "bashls",
+  "dockerls",
+  "docker_compose_language_service",
+  "yamlls",
 }
 
-for _, server in ipairs(servers) do
-    lsp[server] = {
-        capabilities = capabilities,
-        on_attach = on_attach,
-    }
-end
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+  callback = function(event)
+    local bufnr = event.buf
 
--- Lua specific settings
-lsp["lua_ls"].settings = {
-    Lua = {
-        runtime = { version = "LuaJIT" },
-        diagnostics = { globals = { "vim" } },
-        workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-        telemetry = { enable = false },
-    },
-}
+    local function map(mode, lhs, rhs, desc)
+      vim.keymap.set(mode, lhs, rhs, {
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+        desc = desc,
+      })
+    end
 
--- HTML5 LuaSnip snippet
-luasnip.add_snippets("html", {
-    luasnip.snippet("html5", {
-        luasnip.text_node({
-            "<!DOCTYPE html>",
-            "<html lang=\"en\">",
-            "    <head>",
-            "        <meta charset=\"UTF-8\">",
-            "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
-            "        <title>Document</title>",
-            "    </head>",
-            "    <body>",
-        }),
-        luasnip.insert_node(0),  -- Cursor will start here inside <body>
-        luasnip.text_node({
-            "    </body>",
-            "</html>",
-        }),
-    }),
+    map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+    map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+    map("n", "gr", vim.lsp.buf.references, "References")
+    map("n", "gi", vim.lsp.buf.implementation, "Implementation")
+    map("n", "K", vim.lsp.buf.hover, "Hover documentation")
+    map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+    map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
+    map("n", "<leader>d", vim.diagnostic.open_float, "Show diagnostic")
+    map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+    map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+  end,
 })
 
--- Diagnostics
-vim.diagnostic.config({
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
-    severity_sort = true,
+-- Default config for every LSP server
+vim.lsp.config("*", {
+  capabilities = capabilities,
+})
+
+-- Lua-specific config
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        checkThirdParty = false,
+      },
+    },
+  },
+})
+
+-- TypeScript / JavaScript
+vim.lsp.config("ts_ls", {})
+
+-- HTML
+vim.lsp.config("html", {})
+
+-- CSS
+vim.lsp.config("cssls", {})
+
+-- Tailwind CSS
+vim.lsp.config("tailwindcss", {})
+
+-- Emmet
+vim.lsp.config("emmet_language_server", {
+  filetypes = {
+    "html",
+    "css",
+    "scss",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "svelte",
+    "vue",
+    "php",
+  },
+})
+
+-- JSON
+vim.lsp.config("jsonls", {})
+
+-- Python
+vim.lsp.config("pyright", {})
+
+-- Go
+vim.lsp.config("gopls", {})
+
+-- Rust
+vim.lsp.config("rust_analyzer", {})
+
+-- PHP
+vim.lsp.config("intelephense", {})
+
+-- Bash
+vim.lsp.config("bashls", {})
+
+-- Dockerfile
+vim.lsp.config("dockerls", {})
+
+-- Docker Compose
+vim.lsp.config("docker_compose_language_service", {})
+
+-- YAML
+vim.lsp.config("yamlls", {})
+
+-- Enable servers
+vim.lsp.enable(servers)
+
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    ["<Tab>"] = cmp.mapping.select_next_item(),
+    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+    ["<C-e>"] = cmp.mapping.abort(),
+  }),
+
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  },
 })

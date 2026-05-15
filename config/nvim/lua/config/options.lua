@@ -1,54 +1,73 @@
 local options = {
-  laststatus = 3,
-  ruler = false, --disable extra numbering
-  showmode = false, --not needed due to lualine
-  showcmd = false,
-  wrap = true, --toggle bound to leader W
-  mouse = "a", --enable mouse
-  clipboard = "unnamedplus", --system clipboard integration
-  history = 100, --command line history
-  swapfile = false, --swap just gets in the way, usually
-  backup = false,
-  undofile = true, --undos are saved to file
-  cursorline = true, --highlight line
-  ttyfast = true, --faster scrolling
-  smoothscroll = true,
-  title = true, --automatic window titlebar
-
-  number = true, --numbering lines
-  relativenumber = true, --toggle bound to leader nn
+  -- UI
+  number = true,
+  relativenumber = true,
   numberwidth = 4,
-
-  breakindent = true,
-  copyindent = true,
-  preserveindent = true,
-  smarttab = true, --indentation stuff
-  cindent = false,
-  autoindent = true,
-  tabstop = 4, --visual width of tab
-
-  foldmethod = "expr",
-  foldlevel = 99, --disable folding, lower #s enable
-  foldexpr = "nvim_treesitter#foldexpr()",
-
+  cursorline = true,
   termguicolors = true,
+  laststatus = 3,
+  showmode = false,
+  showcmd = false,
+  ruler = false,
+  title = true,
+  signcolumn = "yes",
 
-  scrolloff = 10, -- minimal number of screen lines to keep above the cursor
-  hlsearch = true, -- nice, idk
+  -- Behavior
+  mouse = "a",
+  clipboard = "unnamedplus",
+  history = 100,
+  swapfile = false,
+  backup = false,
+  undofile = true,
+  wrap = true,
+  scrolloff = 8,
+  splitkeep = "screen",
 
-  ignorecase = true, --ignore case while searching
-  smartcase = true, --but do not ignore if caps are used
+  -- Search
+  hlsearch = true,
+  ignorecase = true,
+  smartcase = true,
 
-  conceallevel = 2, --markdown conceal
-  concealcursor = "nc",
+  -- Tabs
+  tabstop = 4,
+  shiftwidth = 4,
+  softtabstop = 4,
+  expandtab = true,
+  smarttab = false,
 
-  splitkeep = 'screen', --stablizie window open/close
+  -- Disable auto-indentation
+  autoindent = false,
+  smartindent = false,
+  cindent = false,
+  copyindent = false,
+  preserveindent = false,
+  breakindent = false,
+
+  -- Folding
+  foldmethod = "manual",
+  foldlevel = 99,
+
+  -- Markdown/conceal
+  conceallevel = 0,
+
+  -- Better completion menu
+  completeopt = { "menu", "menuone", "noselect" },
 }
 
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
+-- Keep filetype plugins, but disable filetype indentation
+vim.cmd("filetype plugin on")
+vim.cmd("filetype indent off")
+
+-- Extra safety: disable indent expression
+vim.opt.indentexpr = ""
+
 vim.diagnostic.config({
   signs = false,
+  virtual_text = true,
+  underline = true,
+  update_in_insert = false,
 })
