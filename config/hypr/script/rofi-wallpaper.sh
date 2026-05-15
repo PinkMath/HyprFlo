@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMG_DIR="$HOME/pictures"
+IMG_DIR="$HOME/Pictures"
 
 mapfile -t files < <(find "$IMG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \))
 
