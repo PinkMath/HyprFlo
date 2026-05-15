@@ -5,8 +5,6 @@ Minimal Arch Linux + Hyprland dotfiles.
 HyprFlo is my personal Hyprland setup focused on being clean, fast, and simple.
 It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlogout, and wallpapers.
 
-![HyprFlo Screenshot](./assets/screenshot.png)
-
 > [!IMPORTANT]
 > This config is made for Arch Linux.
 >
@@ -21,12 +19,12 @@ It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlog
 
 ## Preview
 
-Add your screenshots here:
 
-```md
-![Screenshot 1](./screenshots/screenshot1.png)
-![Screenshot 2](./screenshots/screenshot2.png)
-```
+<img width="1920" height="1080" alt="2026-05-15-153557_hyprshot" src="https://github.com/user-attachments/assets/f67f66db-e2c5-4a57-9d8e-b65499d676f3" />
+
+<img width="1920" height="1080" alt="2026-05-15-153545_hyprshot" src="https://github.com/user-attachments/assets/514b7334-4fc6-4460-813f-8a70e02c72cb" />
+
+<img width="1920" height="1080" alt="2026-05-15-153524_hyprshot" src="https://github.com/user-attachments/assets/9ba30706-e663-4444-b6d6-e1469ab9187b" />
 
 ---
 
