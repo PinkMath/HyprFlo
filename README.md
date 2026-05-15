@@ -20,7 +20,8 @@ It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlog
 ## Preview
 
 
-<img width="1920" height="1080" alt="2026-05-15-153557_hyprshot" src="https://github.com/user-attachments/assets/f67f66db-e2c5-4a57-9d8e-b65499d676f3" />
+<img width="1920" height="1080" alt="2026-05-15-161330_hyprshot" src="https://github.com/user-attachments/assets/139b737e-acc9-40af-8b1e-84867991c1eb" />
+
 
 <img width="1920" height="1080" alt="2026-05-15-153545_hyprshot" src="https://github.com/user-attachments/assets/514b7334-4fc6-4460-813f-8a70e02c72cb" />
 
