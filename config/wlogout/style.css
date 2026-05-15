@@ -1,0 +1,47 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", monospace;
+    background-image: none;
+}
+
+window {
+    background-color: rgba(8, 8, 10, 0.72);
+}
+
+button {
+    color: #e8e8e8;
+    background-color: #18181c;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+
+    margin: 12px;
+    padding: 32px;
+
+    font-size: 15px;
+
+    background-repeat: no-repeat;
+    background-position: center 35%;
+    background-size: 36px;
+}
+
+button:hover,
+button:focus {
+    background-color: #25252b;
+    border-color: #cba6f7;
+    color: #ffffff;
+}
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"));
+}
