@@ -11,6 +11,7 @@ BACKUP_DIR="$HOME/.hyprflo-backup-$(date +%Y%m%d-%H%M%S)"
 PACMAN_PACKAGES=(
   base-devel
   git
+  lazygit
   wireplumber
   dunst
   grim
