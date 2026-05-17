@@ -1,5 +1,5 @@
 >[!NOTE]
->Save your wallpapers in the `pictures` folder
+>Save your wallpapers in the `Pictures` folder
 
 -- If you're uring zsh, move the zprofile and zshrc to the home and rename it as '.zprofile' and '.zshrc'.
 
