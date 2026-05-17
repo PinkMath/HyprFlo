@@ -89,7 +89,7 @@ makepkg -si
 Install optional AUR apps:
 
 ```bash
-yay -S spotify librewolf-bin vesktop
+yay -S librewolf-bin vesktop
 ```
 
 > If your setup uses a wallpaper tool, install the one you use, like `swww`, `hyprpaper`, or `waypaper`.
@@ -140,7 +140,7 @@ mpc update
 Play the plylist:
 ```bash
 mpc clear
-mpc load senai
+mpc load music
 mpc play
 rmpc
 ```
@@ -245,7 +245,7 @@ Or log out and log back in.
 | `Super + Space` | Open Rofi app launcher |
 | `Super + Shift + Space` | Change wallpaper |
 | `Alt + B` | Launch browser |
-| `Alt + S` | Launch Spotify |
+| `Alt + S` | Launch RMPC |
 | `Alt + D` | Launch Vesktop |
 
 ---
@@ -263,11 +263,11 @@ Or log out and log back in.
 
 | Keybind | Action |
 |---|---|
-| `Alt + Left` | Previous Spotify track |
-| `Alt + Right` | Next Spotify track |
-| `Alt + Up` | Increase Spotify volume |
-| `Alt + Down` | Decrease Spotify volume |
-| `Alt + Space` | Play or pause Spotify |
+| `Alt + Space` | Play / pause current song |
+| `Alt + Left` | Previous song |
+| `Alt + Right` | Next song |
+| `Alt + Up` | Increase music volume |
+| `Alt + Down` | Decrease music volume |
 
 ---
 
@@ -279,7 +279,7 @@ Or log out and log back in.
 | `Super + Shift + G` | Move focused window to magic workspace |
 | `Super + G` | Move focused window to workspace 2 |
 
-The magic workspace is useful for temporary or floating apps like Spotify, Vesktop, or scratchpad windows.
+The magic workspace is useful for temporary or floating apps like RMPC, Vesktop, or scratchpad windows.
 
 ---
 

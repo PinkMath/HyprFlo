@@ -59,7 +59,6 @@ NVIDIA_PACKAGES=(
 )
 
 AUR_PACKAGES=(
-  spotify
   librewolf-bin
   vesktop
 )
