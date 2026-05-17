@@ -1,0 +1,547 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+IFS=$'\n\t'
+
+PROGRAM_NAME="${0##*/}"
+
+MUSIC_DIR="${MUSIC_DIR:-$HOME/Music}"
+MPD_PLAYLIST_DIR="${MPD_PLAYLIST_DIR:-$HOME/.config/mpd/playlists}"
+SLDL_BIN="${SLDL_BIN:-$HOME/Soulseek Downloads/sldl}"
+YT_DLP_BIN="${YT_DLP_BIN:-yt-dlp}"
+MPC_BIN="${MPC_BIN:-mpc}"
+
+PREF_FORMAT="${PREF_FORMAT:-flac}"
+AUDIO_FORMAT="${AUDIO_FORMAT:-mp3}"
+PLAYLIST_CHOICE=""
+
+if [ -t 1 ]; then
+  BOLD='[1m'
+  DIM='[2m'
+  RED='[31m'
+  GREEN='[32m'
+  YELLOW='[33m'
+  BLUE='[34m'
+  MAGENTA='[35m'
+  CYAN='[36m'
+  RESET='[0m'
+else
+  BOLD=''
+  DIM=''
+  RED=''
+  GREEN=''
+  YELLOW=''
+  BLUE=''
+  MAGENTA=''
+  CYAN=''
+  RESET=''
+fi
+
+usage() {
+  cat <<EOF
+Usage:
+  $PROGRAM_NAME
+  $PROGRAM_NAME -y   <youtube-url>  [playlist-name]
+  $PROGRAM_NAME -csv <playlist.csv> [playlist-name]
+  $PROGRAM_NAME -g   <music-path>   [playlist-name]
+
+Modes:
+  -y,   --youtube   Install/download audio from YouTube.
+  -csv, --csv       Install/download songs from Soulseek using a CSV.
+  -g,   --generate  Use songs you already have locally.
+
+Examples:
+  $PROGRAM_NAME
+  $PROGRAM_NAME -y "https://youtube.com/playlist?list=..."
+  $PROGRAM_NAME -csv ~/Music/playlists-backup/MySpotifyLibrary.csv senai
+  $PROGRAM_NAME -g ~/Downloads/album senai
+
+Environment variables:
+  MUSIC_DIR          Default: $HOME/Music
+  MPD_PLAYLIST_DIR   Default: $HOME/.config/mpd/playlists
+  SLDL_BIN           Default: $HOME/Soulseek Downloads/sldl
+  YT_DLP_BIN         Default: yt-dlp
+  MPC_BIN            Default: mpc
+  PREF_FORMAT        Default: flac, used by sldl
+  AUDIO_FORMAT       Default: mp3, used by yt-dlp
+
+Soulseek mode requires:
+  SLSK_USER
+  SLSK_PASS
+EOF
+}
+
+log()  { printf "${CYAN}==>${RESET} %s
+" "$*"; }
+ok()   { printf "${GREEN}✅ %s${RESET}
+" "$*"; }
+warn() { printf "${YELLOW}⚠️  %s${RESET}
+" "$*" >&2; }
+die()  { printf "${RED}❌ Error: %s${RESET}
+" "$*" >&2; exit 1; }
+
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "Required command not found: $1"
+}
+
+trim() {
+  local s="$*"
+  s="${s#"${s%%[![:space:]]*}"}"
+  s="${s%"${s##*[![:space:]]}"}"
+  printf '%s' "$s"
+}
+
+expand_path() {
+  local path="$1"
+
+  case "$path" in
+    '~')
+      printf '%s' "$HOME"
+      ;;
+    '~/'*)
+      # Remove a literal ~/ prefix. The backslash is important here.
+      printf '%s' "$HOME/${path#\~/}"
+      ;;
+    *)
+      printf '%s' "$path"
+      ;;
+  esac
+}
+
+sanitize_name() {
+  local name
+  name="$(trim "$*")"
+  name="${name//\//-}"
+  name="${name//\\/-}"
+  name="${name//:/-}"
+  name="${name//\*/-}"
+  name="${name//\?/-}"
+  name="${name//\"/}"
+  name="${name//</-}"
+  name="${name//>/-}"
+  name="${name//|/-}"
+  name="$(printf '%s' "$name" | tr -s ' ')"
+
+  if [ -z "$name" ]; then
+    name="playlist"
+  fi
+
+  printf '%s' "$name"
+}
+
+is_audio_file() {
+  local file="${1,,}"
+
+  case "$file" in
+    *.flac|*.mp3|*.m4a|*.ogg|*.opus|*.wav|*.aac|*.alac) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+find_audio_files() {
+  local path="$1"
+
+  if [ -f "$path" ]; then
+    if is_audio_file "$path"; then
+      printf '%s\0' "$path"
+    fi
+    return
+  fi
+
+  if [ -d "$path" ]; then
+    find "$path" -type f \
+      \( -iname '*.flac' -o \
+         -iname '*.mp3'  -o \
+         -iname '*.m4a'  -o \
+         -iname '*.ogg'  -o \
+         -iname '*.opus' -o \
+         -iname '*.wav'  -o \
+         -iname '*.aac'  -o \
+         -iname '*.alac' \) \
+      -print0
+    return
+  fi
+
+  die "Path not found: $path"
+}
+
+list_playlists() {
+  mkdir -p "$MPD_PLAYLIST_DIR"
+
+  find "$MPD_PLAYLIST_DIR" -maxdepth 1 -type f -name '*.m3u' -printf '%f\n' 2>/dev/null \
+    | sed 's/\.m3u$//' \
+    | sort
+}
+
+choose_playlist() {
+  local provided="${1:-}"
+  local answer selected choice count i
+  local existing=()
+
+  mkdir -p "$MPD_PLAYLIST_DIR"
+
+  if [ -n "$provided" ]; then
+    PLAYLIST_CHOICE="$(sanitize_name "$provided")"
+    return
+  fi
+
+  echo
+  printf "${BOLD}${MAGENTA}📁 Playlist destination:${RESET}
+"
+  printf "  ${CYAN}[1]${RESET} Create a new playlist
+"
+  printf "  ${CYAN}[2]${RESET} Add to an existing playlist
+"
+  echo
+  read -r -p "Choose [1/2]: " answer
+
+  case "$answer" in
+    2)
+      mapfile -t existing < <(list_playlists)
+      count="${#existing[@]}"
+
+      if [ "$count" -eq 0 ]; then
+        warn "No existing playlists found. Creating a new one instead."
+        read -r -p "New playlist name: " selected
+        selected="$(sanitize_name "$selected")"
+        [ -n "$selected" ] || die "Playlist name cannot be empty."
+        PLAYLIST_CHOICE="$selected"
+        return
+      fi
+
+      echo
+      printf "${BOLD}${MAGENTA}Existing playlists:${RESET}
+"
+      for i in "${!existing[@]}"; do
+        printf "  ${CYAN}[%d]${RESET} %s
+" "$((i + 1))" "${existing[$i]}"
+      done
+      echo
+      read -r -p "Playlist number or name: " choice
+
+      if [[ "$choice" =~ ^[0-9]+$ ]] && [ "$choice" -ge 1 ] && [ "$choice" -le "$count" ]; then
+        selected="${existing[$((choice - 1))]}"
+      else
+        selected="$choice"
+      fi
+      ;;
+    *)
+      read -r -p "New playlist name: " selected
+      ;;
+  esac
+
+  selected="$(sanitize_name "$selected")"
+  [ -n "$selected" ] || die "Playlist name cannot be empty."
+  PLAYLIST_CHOICE="$selected"
+}
+
+make_paths() {
+  PLAYLIST_NAME="$(sanitize_name "$1")"
+  DEST_DIR="$MUSIC_DIR/$PLAYLIST_NAME"
+  PLAYLIST_FILE="$MPD_PLAYLIST_DIR/$PLAYLIST_NAME.m3u"
+
+  mkdir -p "$MUSIC_DIR" "$DEST_DIR" "$MPD_PLAYLIST_DIR"
+}
+
+mpd_relative_path() {
+  local file="$1"
+
+  if [[ "$file" == "$MUSIC_DIR"/* ]]; then
+    printf '%s\n' "${file#"$MUSIC_DIR/"}"
+  else
+    printf '%s\n' "$file"
+  fi
+}
+
+refresh_playlist() {
+  local tmp
+  tmp="$(mktemp)"
+
+  while IFS= read -r -d '' file; do
+    mpd_relative_path "$file"
+  done < <(find_audio_files "$DEST_DIR") | sort -V > "$tmp"
+
+  mv "$tmp" "$PLAYLIST_FILE"
+}
+
+update_mpd() {
+  if command -v "$MPC_BIN" >/dev/null 2>&1; then
+    "$MPC_BIN" update >/dev/null || warn "mpc update failed. You may need to update MPD manually."
+  else
+    warn "mpc not found, skipping MPD update."
+  fi
+}
+
+unique_target_path() {
+  local dir="$1"
+  local base="$2"
+  local target ext name n
+
+  target="$dir/$base"
+
+  if [ ! -e "$target" ]; then
+    printf '%s' "$target"
+    return
+  fi
+
+  ext="${base##*.}"
+  name="${base%.*}"
+  n=2
+
+  while [ -e "$dir/$name ($n).$ext" ]; do
+    n=$((n + 1))
+  done
+
+  printf '%s' "$dir/$name ($n).$ext"
+}
+
+move_new_audio_files() {
+  local source_dir="$1"
+  local marker="$2"
+  local moved=0
+  local file base target
+
+  while IFS= read -r -d '' file; do
+    base="${file##*/}"
+    target="$(unique_target_path "$DEST_DIR" "$base")"
+    mv "$file" "$target"
+    moved=$((moved + 1))
+  done < <(
+    find "$source_dir" -maxdepth 1 -type f -newer "$marker" \
+      \( -iname '*.flac' -o \
+         -iname '*.mp3'  -o \
+         -iname '*.m4a'  -o \
+         -iname '*.ogg'  -o \
+         -iname '*.opus' -o \
+         -iname '*.wav'  -o \
+         -iname '*.aac'  -o \
+         -iname '*.alac' \) \
+      -print0
+  )
+
+  printf '%s' "$moved"
+}
+
+move_local_audio_files() {
+  local input_path="$1"
+  local moved=0
+  local file base target
+
+  [ -e "$input_path" ] || die "Path not found: $input_path"
+
+  while IFS= read -r -d '' file; do
+    base="${file##*/}"
+    target="$(unique_target_path "$DEST_DIR" "$base")"
+
+    # If the source is already inside the destination folder, do not move it.
+    if [[ "$file" == "$DEST_DIR"/* ]]; then
+      continue
+    fi
+
+    mv "$file" "$target"
+    moved=$((moved + 1))
+  done < <(find_audio_files "$input_path")
+
+  printf '%s' "$moved"
+}
+
+run_csv_mode() {
+  local csv_file="$1"
+  local playlist_arg="${2:-}"
+  local marker moved
+
+  csv_file="$(expand_path "$csv_file")"
+
+  [ -f "$csv_file" ] || die "CSV file not found: $csv_file"
+  [ -x "$SLDL_BIN" ] || die "sldl not found or not executable: $SLDL_BIN"
+  [ -n "${SLSK_USER:-}" ] || die "SLSK_USER is not set"
+  [ -n "${SLSK_PASS:-}" ] || die "SLSK_PASS is not set"
+
+  choose_playlist "$playlist_arg"
+  make_paths "$PLAYLIST_CHOICE"
+
+  marker="$(mktemp)"
+  trap 'rm -f "$marker"' RETURN
+
+  log "Searching/downloading songs from Soulseek CSV: $csv_file"
+  log "Destination folder: $DEST_DIR"
+
+  cd "$MUSIC_DIR"
+
+  "$SLDL_BIN" "$csv_file" \
+    --user "$SLSK_USER" \
+    --pass "$SLSK_PASS" \
+    --name-format "{artist} - {title}" \
+    --pref-format "$PREF_FORMAT"
+
+  moved="$(move_new_audio_files "$MUSIC_DIR" "$marker")"
+  log "Moved $moved new audio file(s)."
+}
+
+run_youtube_mode() {
+  local url="$1"
+  local playlist_arg="${2:-}"
+  local marker moved
+
+  need_cmd "$YT_DLP_BIN"
+  need_cmd ffmpeg
+
+  choose_playlist "$playlist_arg"
+  make_paths "$PLAYLIST_CHOICE"
+
+  marker="$(mktemp)"
+  trap 'rm -f "$marker"' RETURN
+
+  log "Downloading YouTube audio from: $url"
+  log "Temporary download folder: $MUSIC_DIR"
+  log "Final playlist folder: $DEST_DIR"
+
+  cd "$MUSIC_DIR"
+
+  "$YT_DLP_BIN" \
+    --ignore-errors \
+    --no-overwrites \
+    --extract-audio \
+    --audio-format "$AUDIO_FORMAT" \
+    --audio-quality 0 \
+    --output "%(playlist_index|01)02d - %(title).180B.%(ext)s" \
+    "$url"
+
+  moved="$(move_new_audio_files "$MUSIC_DIR" "$marker")"
+  log "Moved $moved new audio file(s) into the playlist folder."
+}
+
+run_generate_mode() {
+  local input_path="$1"
+  local playlist_arg="${2:-}"
+  local moved
+
+  input_path="$(expand_path "$input_path")"
+
+  choose_playlist "$playlist_arg"
+  make_paths "$PLAYLIST_CHOICE"
+
+  log "Looking for local songs in: $input_path"
+  log "Destination folder: $DEST_DIR"
+  warn "Local import moves files into the playlist folder, so the original folder stays clean."
+
+  moved="$(move_local_audio_files "$input_path")"
+  log "Moved $moved audio file(s)."
+
+  if [ "$moved" -eq 0 ]; then
+    warn "No audio files were found in that path."
+  fi
+}
+
+finish() {
+  log "Generating MPD playlist: $PLAYLIST_FILE"
+  refresh_playlist
+
+  log "Updating MPD library..."
+  update_mpd
+
+  ok "Done!"
+  echo
+  printf "${BOLD}Playlist:${RESET} %s
+" "$PLAYLIST_NAME"
+  printf "${BOLD}Folder:${RESET}   %s
+" "$DEST_DIR"
+  printf "${BOLD}MPD file:${RESET} %s
+" "$PLAYLIST_FILE"
+  echo
+  echo "If it does not show up in rmpc, restart/reset rmpc."
+}
+
+interactive_menu() {
+  local choice input
+
+  clear 2>/dev/null || true
+  printf "${BOLD}${MAGENTA}🎧 slsk music helper${RESET}
+"
+  echo
+  printf "${BOLD}What do you want to do?${RESET}
+"
+  echo
+  printf "  ${CYAN}[1]${RESET} Install from YouTube
+"
+  printf "  ${CYAN}[2]${RESET} Install from Soulseek
+"
+  printf "  ${CYAN}[3]${RESET} Already have the songs
+"
+  printf "  ${CYAN}[4]${RESET} Help
+"
+  printf "  ${YELLOW}[q]${RESET} Quit
+"
+  echo
+  read -r -p "> " choice
+
+  case "${choice,,}" in
+    1|y|youtube)
+      echo
+      read -r -p "YouTube video/playlist link: " input
+      [ -n "$input" ] || die "YouTube link cannot be empty."
+      run_youtube_mode "$input"
+      finish
+      ;;
+    2|csv|soulseek|slsk)
+      echo
+      read -r -p "CSV path: " input
+      [ -n "$input" ] || die "CSV path cannot be empty."
+      run_csv_mode "$input"
+      finish
+      ;;
+    3|g|generate|local)
+      echo
+      read -r -p "Path to song file/folder: " input
+      [ -n "$input" ] || die "Path cannot be empty."
+      run_generate_mode "$input"
+      finish
+      ;;
+    4|h|help|--help|-h)
+      usage
+      ;;
+    q|quit|exit)
+      exit 0
+      ;;
+    *)
+      die "Invalid choice: $choice"
+      ;;
+  esac
+}
+
+main() {
+  local mode="${1:-}"
+  local input="${2:-}"
+  local playlist="${3:-}"
+
+  case "$mode" in
+    "")
+      interactive_menu
+      ;;
+    -h|--help|help)
+      usage
+      ;;
+    -y|--youtube)
+      [ -n "$input" ] || { usage; exit 1; }
+      run_youtube_mode "$input" "$playlist"
+      finish
+      ;;
+    -csv|--csv)
+      [ -n "$input" ] || { usage; exit 1; }
+      run_csv_mode "$input" "$playlist"
+      finish
+      ;;
+    -g|--generate)
+      [ -n "$input" ] || { usage; exit 1; }
+      run_generate_mode "$input" "$playlist"
+      finish
+      ;;
+    *)
+      usage
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
+
