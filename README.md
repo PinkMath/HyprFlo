@@ -19,9 +19,10 @@ It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlog
 
 ## Preview
 
-![Screenshot 1](./screenshots/2026-05-15-161330_hyprshot.png)
-![Screenshot 2](./screenshots/2026-05-15-153545_hyprshot.png)
-![Screenshot 3](./screenshots/2026-05-15-153524_hyprshot.png)
+<img width="1920" height="1080" alt="2026-05-16-215046_hyprshot" src="https://github.com/user-attachments/assets/d9c6e2f4-10d0-4b99-88da-76c7ca3c41f7" />
+<img width="1920" height="1080" alt="2026-05-16-215002_hyprshot" src="https://github.com/user-attachments/assets/55e4e50f-9679-4d9a-bbce-50158d0dbdad" />
+<img width="1920" height="1080" alt="2026-05-16-214951_hyprshot" src="https://github.com/user-attachments/assets/223ee0f4-4068-4420-b06f-cb34a21111cb" />
+
 
 ---
 
@@ -144,7 +145,7 @@ mpc play
 rmpc
 ```
 
-### If you're using SoulSeek + slsk this gonna be useful(just be careful here do u run it):
+If you're using SoulSeek + slsk it gonna be useful(just be careful here do u run it):
 ```bash
 #!/usr/bin/env bash
 
