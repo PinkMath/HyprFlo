@@ -34,6 +34,7 @@ Install the main packages:
 sudo pacman -S \
   base-devel \
   wireplumber \
+  lazygit \
   dunst \
   grim \
   hyprland \
