@@ -93,7 +93,7 @@ Install optional AUR apps:
 yay -S librewolf-bin vesktop
 ```
 
-> If your setup uses a wallpaper tool, install the one you use, like `swww`, `hyprpaper`, or `waypaper`.
+> If your setup uses a wallpaper tool, install the one you use, like `awww`, `hyprpaper`, or `waypaper`.
 
 ---
 
