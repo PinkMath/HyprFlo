@@ -2,7 +2,7 @@
 
 Minimal Arch Linux + Hyprland dotfiles.
 
-HyprFlo is my personal Hyprland setup focused on being clean, fast, and simple.  
+HyprFlo is my personal Hyprland setup focused on being clean, fast, and simple.
 It includes configs for Hyprland, Waybar, Rofi, Kitty, Nemo, Neovim, Dunst, Wlogout, and wallpapers.
 
 > [!IMPORTANT]
@@ -46,7 +46,21 @@ sudo pacman -S \
   unzip \
   waybar \
   tmux \
-  wlogout
+  wlogout \
+  fastfetch \
+  eza \
+  bat \
+  zoxide \
+  btop \
+  hyprlock \
+  playerctl \
+  brightnessctl \
+  xdg-user-dirs \
+  zsh \
+  zsh-autosuggestions \
+  zsh-syntax-highlighting \
+  wl-clipboard \
+  cliphist
 ```
 
 Optional NVIDIA packages:
@@ -78,6 +92,112 @@ yay -S spotify librewolf-bin vesktop
 ```
 
 > If your setup uses a wallpaper tool, install the one you use, like `swww`, `hyprpaper`, or `waypaper`.
+
+---
+
+## Offline Music Player
+
+HyprFlo includes a minimal offline music setup using:
+
+- `mpd` as the music server
+- `mpc` for command-line controls
+- `rmpc` as the terminal music player UI
+
+### Install music packages
+
+```bash
+sudo pacman -S mpd mpc rmpc
+```
+
+### Music folder structure
+
+Put music inside `~/Music`.
+
+Example:
+```
+~/Music/
+  └── music/
+      └── Artist/
+          └── Album/
+              └── song.flac
+```
+
+### Create an MPD playlist from a folder
+
+Example for a playlist folder called `music`:
+```bash
+find ~/Music/music -type f \( -iname "*.flac" -o -iname "*.mp3" -o -iname "*.m4a" -o -iname "*.ogg" -o -iname "*.opus" -o -iname "*.wav" \) \
+  | sed "s|$HOME/Music/||" \
+  | sort > ~/.config/mpd/playlists/music.m3u
+```
+
+Update MPD:
+```bash
+mpc update
+```
+
+Play the plylist:
+```bash
+mpc clear
+mpc load senai
+mpc play
+rmpc
+```
+
+### If you're using SoulSeek + slsk this gonna be useful(just be careful here do u run it):
+```bash
+#!/usr/bin/env bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# 1. Check if the CSV file argument was provided
+if [ -z "$1" ]; then
+    echo "❌ Error: Please provide a CSV file."
+    echo "Usage: slsk-flow yourfile.csv"
+    exit 1
+fi
+
+
+CSV_FILE="$1"
+
+# 2. Ask the user for the destination folder name
+echo -n "📁 Enter the name for the destination folder/playlist: "
+read -r FOLDER_NAME
+
+if [ -z "$FOLDER_NAME" ]; then
+    echo "❌ Error: Folder name cannot be empty."
+    exit 1
+fi
+
+echo "🚀 Starting Soulseek download for list: $CSV_FILE..."
+
+# 3. Change directory to Music and run the downloader
+~/Soulseek\ Downloads/sldl "$CSV_FILE" --user YOURUSERNAME --pass YOURPASSWORD --name-format "{artist} - {title}" --pref-format flac
+
+echo "📂 Organizing downloaded files into folder: '$FOLDER_NAME'..."
+
+# 4. Create the target directory
+mkdir -p "$FOLDER_NAME"
+
+# 5. Move the newly downloaded files from ~/Music into the new folder
+# (Using -maxdepth 1 to make sure we don't accidentally pull from other folders)
+find ~/Music -maxdepth 1 -type f \( -iname "*.flac" -o -iname "*.ogg" -o -iname "*.opus" -o -iname "*.mp3" -o -iname "*.m4a" \) -exec mv {} ~/Music/"$FOLDER_NAME"/ \;
+
+echo "🎵 Generating M3U playlist..."
+
+# 6. Create the playlist file for MPD
+find ~/Music/"$FOLDER_NAME" -type f \( -iname "*.flac" -o -iname "*.mp3" -o -iname "*.m4a" -o -iname "*.ogg" -o -iname "*.opus" \) \
+  | sed "s|$HOME/Music/||" \
+  | sort > ~/.config/mpd/playlists/"$FOLDER_NAME".m3u
+
+echo "🔄 Updating MPD library..."
+
+# 7. Update MPC
+mpc update
+
+echo "✅ Done! Your music is downloaded, organized, and added to MPD."
+```
 
 ---
 

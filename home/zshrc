@@ -10,7 +10,7 @@ setopt sharehistory
 setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt autocd
-setopt correct
+#setopt correct
 setopt interactivecomments
 
 # Completion
@@ -27,12 +27,16 @@ PROMPT='%F{cyan}%n%f %F{blue}%~%f %# '
 RPROMPT=''
 
 # Aliases
-alias ls='ls --color=auto'
-alias ll='ls -lah'
-alias la='ls -A'
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -lah --icons --group-directories-first'
+alias la='eza -A --icons --group-directories-first'
+alias tree='eza --tree --icons'
+alias cat='bat'
 alias grep='grep --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
+
+eval "$(zoxide init zsh)"
 
 alias update='sudo pacman -Syu'
 
@@ -69,3 +73,11 @@ extract() {
 # Plugins
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Custom Soulseek Batch Downloader Shortcut
+alias slsk="~/.config/rmpc/script/slsk-flow"
+
+# Auto-start
+if command -v fastfetch >/dev/null 2>&1; then
+  fastfetch
+fi
